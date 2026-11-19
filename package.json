@@ -1,0 +1,222 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "cptr",
+  "title": "Cptr",
+  "description": "Capture selections, web pages, screenshots, the clipboard and PDFs as plain folders, and find them again with full-text search.",
+  "icon": "icon.png",
+  "author": "aaltshuler",
+  "license": "MIT",
+  "version": "0.1.0",
+  "categories": [
+    "Productivity",
+    "Web"
+  ],
+  "platforms": [
+    "macOS"
+  ],
+  "commands": [
+    {
+      "name": "capture-selection",
+      "title": "Capture Selection",
+      "description": "Save the selected text as a capture bundle",
+      "keywords": [
+        "text",
+        "highlight",
+        "quote",
+        "save"
+      ],
+      "mode": "no-view"
+    },
+    {
+      "name": "capture-web",
+      "title": "Capture Web Page",
+      "description": "Archive the frontmost browser tab (or a given URL): text and a screenshot",
+      "keywords": [
+        "archive",
+        "page",
+        "url",
+        "tab",
+        "browser",
+        "site"
+      ],
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "url",
+          "type": "text",
+          "placeholder": "URL (optional)",
+          "required": false
+        }
+      ]
+    },
+    {
+      "name": "capture-region",
+      "title": "Capture Region",
+      "description": "Drag a screen region to capture; the text in it becomes searchable",
+      "keywords": [
+        "screenshot",
+        "snip",
+        "crop",
+        "area"
+      ],
+      "mode": "no-view"
+    },
+    {
+      "name": "capture-screen",
+      "title": "Capture Full Screen",
+      "description": "Capture the main display; the text on it becomes searchable",
+      "keywords": [
+        "screenshot",
+        "display",
+        "desktop"
+      ],
+      "mode": "no-view"
+    },
+    {
+      "name": "capture-clipboard",
+      "title": "Capture Clipboard",
+      "description": "Pin the current clipboard contents as a capture bundle",
+      "keywords": [
+        "paste",
+        "pin",
+        "pasteboard",
+        "save"
+      ],
+      "mode": "no-view"
+    },
+    {
+      "name": "capture-pdf",
+      "title": "Capture PDF",
+      "description": "Archive the PDFs selected in Finder, or the PDF open in the frontmost browser tab",
+      "keywords": [
+        "document",
+        "finder",
+        "file",
+        "archive",
+        "paper"
+      ],
+      "mode": "no-view"
+    },
+    {
+      "name": "search-captures",
+      "title": "Search Captures",
+      "description": "Full-text search across all captures, with kind:, app: and tag: filters",
+      "keywords": [
+        "find",
+        "archive",
+        "cptr",
+        "full-text"
+      ],
+      "mode": "view"
+    },
+    {
+      "name": "recent-captures",
+      "title": "Recent Captures",
+      "description": "Browse recent captures with previews",
+      "keywords": [
+        "history",
+        "browse",
+        "latest",
+        "cptr"
+      ],
+      "mode": "view"
+    },
+    {
+      "name": "reprocess-captures",
+      "title": "Reprocess Captures",
+      "description": "Extract missing text and Markdown for existing captures, and settle ones left pending",
+      "keywords": [
+        "backfill",
+        "ocr",
+        "extract",
+        "repair",
+        "cptr"
+      ],
+      "mode": "no-view",
+      "arguments": [
+        {
+          "name": "scope",
+          "type": "dropdown",
+          "placeholder": "Scope",
+          "required": false,
+          "data": [
+            {
+              "title": "Missing Only",
+              "value": "missing"
+            },
+            {
+              "title": "Everything",
+              "value": "all"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "preferences": [
+    {
+      "name": "capturesDir",
+      "type": "directory",
+      "required": false,
+      "title": "Captures Folder",
+      "description": "Where captures are saved, one folder per capture.",
+      "default": "~/cptr"
+    },
+    {
+      "name": "archiveSelectionPage",
+      "type": "checkbox",
+      "required": false,
+      "title": "Selections",
+      "label": "Also archive the page a selection came from",
+      "description": "In a browser, save the page behind a selection as a second capture. Needs the Raycast Browser Extension.",
+      "default": true
+    },
+    {
+      "name": "recognizeText",
+      "type": "checkbox",
+      "required": false,
+      "title": "Images",
+      "label": "Recognize text in images",
+      "description": "Read the text in screenshots, regions and clipboard images, on this Mac, so that search can find them.",
+      "default": true
+    },
+    {
+      "name": "keepPagePDF",
+      "type": "checkbox",
+      "required": false,
+      "title": "Re-Fetched Pages",
+      "label": "Keep the full-page PDF",
+      "description": "A page that is not open in a readable tab is rendered by a headless browser. Its full-page PDF is the largest file in a capture; the text and a screenshot are kept either way.",
+      "default": true
+    },
+    {
+      "name": "browserApp",
+      "type": "appPicker",
+      "required": false,
+      "title": "Browser for Re-Fetch",
+      "description": "The Chromium browser that renders such pages. When empty: the first of Chrome, Chromium, Brave and Edge that is installed."
+    }
+  ],
+  "dependencies": {
+    "@opendocsg/pdf2md": "^0.4.0",
+    "@raycast/api": "^2.13.0",
+    "@raycast/utils": "^2.3.3",
+    "unpdf": "^1.9.1"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "26.6.5",
+    "@types/react": "19.3.0",
+    "eslint": "^10.15.0",
+    "tsx": "^4.23.15",
+    "typescript": "^6.0.3"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "lint": "ray lint",
+    "fix-lint": "ray lint --fix",
+    "test": "tsx --test src/lib/*.test.ts",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
